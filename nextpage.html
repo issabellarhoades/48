@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizon Parking</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- External Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+
+    <style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: rgb(255, 255, 255);
+    color: #333;
+    text-align: center;
+}
+
+/* Header styles */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.header .horizon-logo {
+    height: 58px;
+    width: auto;
+    position: absolute;
+    left: 50%;
+    top: 65%;
+    transform: translate(-50%, -50%);
+}
+
+.menu-icon {
+    top: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 18px;
+    width: 24px;
+    cursor: pointer;
+    position: absolute;
+    left: 14px;
+}
+
+.menu-icon span {
+    display: block;
+    height: 10px;
+    width: 100%;
+    background-color: #4db132;
+    border-radius: 2px;
+    margin-bottom: 4px;
+    margin-left: 10px;
+}
+
+.menu-icon span:last-child {
+    margin-bottom: 0;
+}
+
+.review-your-reservation {
+    letter-spacing: 1px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    font-size: 20px;
+    color: #345972;
+    margin-top: 85px;
+}
+
+
+
+
+
+/* Location Box */
+.location-box {
+    margin-left: max(20px, 5%);
+    margin-right: max(20px, 5%);
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px; /* Keep container padding unchanged */
+    width: min(90%, 600px);
+    font-family: Arial, sans-serif;
+    text-align: left;
+    display: block;
+    box-sizing: border-box;
+}
+
+.location-text {
+    font-size: 15px;
+    margin: 0; /* Reset margin */
+    padding: 5px 0; /* Add vertical padding to the text */
+    line-height: 1.5; /* Increase line height for more vertical space */
+}
+
+.location-box p {
+    color: rgb(62, 83, 110);
+    margin: 0;
+    padding-bottom: 0px;
+}
+
+
+
+/* Booking Details */
+.booking-details {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    padding-bottom: 0px;
+    margin: 20px auto;
+    width: min(90%, 400px); /* Responsive size */
+    font-family: Arial, sans-serif;
+    background: white;
+    box-sizing: border-box;
+}
+
+.booking-details h2 {
+    letter-spacing: 1px;
+    font-family: Arial;
+    text-align: left;
+    padding-bottom: 15px;
+    font-size: 17px;
+    color:  rgb(62, 83, 110);
+    margin-top: 0; /* Moves text higher */
+    margin-bottom: 15px; /* Keeps spacing below */
+    padding-top: 5px; /* Small padding for better balance */
+}
+
+
+.booking-section {
+    margin-bottom: 15px;
+}
+
+/* Labels */
+.booking-label {
+    font-weight: bold;
+    font-size: 15px;
+    color: rgb(62, 83, 110);
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: left;
+}
+
+/* Inputs container (Date + Time side by side) */
+.booking-inputs {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between; /* Ensures even spacing */
+}
+
+/* Input Group (Date & Time Fields) */
+.input-group {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px 10px;
+    background: rgb(255, 255, 255);
+    width: 100%;
+    max-width: 180px; /* Matches layout */
+}
+
+.input-group i {
+    margin-right: 6px;
+    color: #555;
+    font-size: 14px;
+}
+
+.input-group input {
+    border: none;
+    width: 100%;
+    font-size: 14px;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+/* Separator line between sections */
+.section-divider {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+}
+
+/* Price Section */
+.booking-price {
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(62, 83, 110);
+    margin-top: 10px;
+}
+
+.price-value {
+    text-align: left;
+    font-size: 18px;
+    color: rgb(62, 83, 110);
+    font-size: 15px;
+}
+
+
+
+
+
+
+
+
+.input-group input {
+    border: none;
+    width: 100%;
+    font-size: 14px;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+    color: rgba(34, 28, 28, 0.839); /* Sets text color to gray */
+}
+
+/* Make the placeholder text also gray */
+.input-group input::placeholder {
+    color: rgba(34, 28, 28, 0.839); /* Slightly lighter gray */
+}
+
+
+
+
+/* Separator Line Between Sections */
+.section-divider {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 20px 0; /* Space before and after */
+}
+
+
+
+
+/* Hide the default time picker icon in input fields */
+input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none !important;
+    -webkit-appearance: none;
+}
+
+
+
+
+        /* Change selected date background to green */
+.flatpickr-day.selected {
+    border-color: rgb(140, 192, 99);
+    background: rgb(140, 192, 99) !important; /* Green */
+    color: white !important;
+    border-radius: 50%; /* Makes it circular like your image */
+}
+
+/* Hover effect on dates */
+.flatpickr-day:hover {
+    background: #81C784 !important; /* Light green on hover */
+}
+
+
+/* Prevent zooming when selecting date */
+input[type="date"] {
+    font-size: 16px; /* Ensures no zoom effect on mobile */
+    touch-action: manipulation; /* Prevents double-tap zoom */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Wrapper to position it separately */
+.total-due-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px; /* Adds space below "Booking Details" */
+}
+
+/* Total Due Box (Now Fully Separate) */
+.total-due-container {
+    border: 1px solid #ccc; /* Adds border */
+    border-radius: 8px; /* Rounded edges */
+    padding: 15px;
+    width: min(90%, 400px);
+    font-family: Arial, sans-serif;
+    background: white;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+/* Lock Icon and Label */
+.total-due-label {
+    font-size: 15px;
+    color: #2E4053;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Lock Icon */
+.total-due-label i {
+    color: #d4a017; /* Gold lock icon */
+}
+
+/* Price Amount */
+.total-due-amount {
+    font-size: 18px;
+    color: #0073e6;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Smooth fade-in effect */
+.price-value, .total-due-amount {
+    transition: opacity 0.4s ease-in-out;
+}
+
+/* Hide the price during loading */
+.loading {
+    opacity: 0.4;
+}
+
+/* Wrapper to position Total Due separately */
+.total-due-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+/* Total Due Box */
+.total-due-container {
+    margin-top: 0px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    width: min(90%, 400px);
+    font-family: Arial, sans-serif;
+    background: white;
+    box-sizing: border-box;
+    text-align: left;
+    padding-bottom: 0px;
+}
+
+/* Lock Icon and Label */
+.total-due-label {
+    font-size: 15px;
+    color: #2E4053;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Lock Icon */
+.total-due-label i {
+    color: #d4a017;
+}
+
+/* Price Amount */
+.total-due-amount {
+    font-size: 15px;
+    color: rgb(62, 83, 110);
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+
+
+
+
+
+
+
+/* Total Due Label */
+.total-due-label {
+    padding-bottom: 0px;
+    margin-top: 0px;
+    font-size: 15px; /* Matches the text size */
+    color: rgb(62, 83, 110); /* Dark blue color */
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Reduce gap to */
+    margin-bottom: 7px; /* Reduces space before price */
+}
+
+/* Custom Lock Icon */
+.lock-icon {
+    padding-right: 4px;
+    margin-bottom: 3px;
+    width: 15px; /* Adjust size to fit well */
+    height: 15px;
+    stroke: #E3A131; /* Gold color */
+    stroke-width: 2; /* Keep it neat */
+}
+
+
+
+/* Reduce space between Booking Details and Total Due */
+.booking-details {
+    margin-bottom: 10px; /* Decrease bottom margin */
+}
+
+/* Reduce space above Total Due */
+.total-due-wrapper {
+    margin-top: 10px; /* Reduce space between the two sections */
+}
+
+
+
+/* Style past dates (gray & faded like in the image) */
+.past-date {
+    color: #949191 !important; /* Light gray text */
+    opacity: 0.5 !important; /* Lower visibility */
+    pointer-events: none !important; /* Disable selection */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Navigation Buttons Wrapper (Floating Like the Book Now Button) */
+.navigation-buttons {
+    font-family: Roboto, sans-serif;
+    width: 390px;
+    position: fixed;
+    bottom: 10px; /* Adjusted distance from bottom */
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 1px solid rgb(140, 192, 99); /* Green border, same size as before */
+    border-radius: 4px; /* Original border radius */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000; /* Keeps it above everything */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Original shadow */
+    padding: 0px 0; /* Original padding */
+    overflow: hidden;
+}
+
+/* Back Button */
+.back-btn {
+    width: 50%;
+    background: white;
+    color: #77a464; /* Original green color */
+    border: none;
+    padding: 15px; /* Original padding */
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.3s ease; /* Added smooth hover transition */
+    text-decoration: none; /* Remove underline from the link */
+    display: inline-block; /* Make the link behave like a button */
+    box-sizing: border-box; /* Ensure padding is included in the width */
+}
+
+/* Hover effect for Back Button */
+.back-btn:hover {
+    background: #f0f0f0; /* Light gray background on hover */
+}
+
+/* Active state for Back Button (when clicked) */
+.back-btn:active {
+    background: #6f9160d2; /* Green background when clicked */
+    color: rgb(221, 219, 219); /* White text when clicked */
+}
+
+/* Continue Button */
+.continue-btn {
+    text-decoration: none;
+    font-family: Arial;
+    width: 50%;
+    background: linear-gradient(125deg, rgba(230, 194, 36, 0.837) 50%, rgb(230, 194, 36) 50%);
+    color: black;
+    border: none;
+    padding: 15px 0; /* Original padding */
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 1s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for background (1s) */
+}
+
+.continue-btn:active{
+    opacity: 0.8;
+}
+
+
+
+
+.extra-space {
+    height: 100px;
+    visibility: hidden; /* Makes the element invisible but keeps its space */
+}
+
+
+
+
+/* Style for invalid dates message */
+.invalid-dates {
+    color: rgb(237, 48, 48);
+    font-size: 15px; /* Match the size of the price text */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Adjust input fields to fit icons */
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px 10px;
+    background: rgb(255, 255, 255);
+    width: 100%;
+    max-width: 180px;
+}
+
+/* Date & Time input fields */
+.input-group input {
+    border: none;
+    width: 100%;
+    font-size: 14px;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+    padding-right: 25px; /* Leaves space for the dropdown icon */
+}
+
+/* Add dropdown icon inside input field */
+.input-group .dropdown-icon {
+    position: absolute;
+    right: 10px; /* Aligns to the right */
+    font-size: 12px;
+    color: #555;
+    cursor: pointer;
+    pointer-events: none; /* Prevents interfering with input */
+}
+
+/* Hide default time picker icon */
+input[type="time"]::-webkit-calendar-picker-indicator,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none !important;
+    -webkit-appearance: none;
+}
+
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <img class="horizon-logo" src="photos/horizon-png.png" alt="Horizon Parking Logo">
+    </header>
+
+    <p class="review-your-reservation">Review Your Reservation</p>
+
+<!-- Search Bar (Location Box) -->
+<div class="location-box">
+    <p><strong>Location:</strong></p>
+    <p class="location-text">Station Road, Shortlands, Shortlands</p>
+</div>
+
+
+
+<!-- Navigation Buttons -->
+<div class="navigation-buttons">
+    <a href="buttons.html" class="back-btn">← Back</a>
+    <a href="thirdpage.html" class="continue-btn">Continue →</a>
+</div>
+
+<!-- Booking Details Container -->
+<div class="booking-details">
+    <h2>Booking Details</h2>
+
+    <div class="booking-section">
+        <p class="booking-label"><strong>Arriving On:</strong></p>
+        <div class="booking-inputs">
+            <!-- Date Input with Calendar Icon -->
+            <div class="input-group">
+                <i class="fas fa-calendar-alt"></i> <!-- Calendar Icon -->
+                <input type="date" id="arrival-date">
+            </div>
+            <!-- Time Input with Clock Icon -->
+            <div class="input-group">
+                <i class="fas fa-clock"></i> <!-- Clock Icon -->
+                <input type="time" id="arrival-time" step="1800">
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Separating Border -->
+    <hr class="section-divider">
+
+<!-- Departing Section -->
+<div class="booking-section">
+    <p class="booking-label"><strong>Departing On:</strong></p>
+    <div class="booking-inputs">
+        <!-- Date Input with Calendar Icon -->
+        <div class="input-group">
+            <i class="fas fa-calendar-alt"></i> <!-- Calendar Icon -->
+            <input type="date" id="departure-date">
+        </div>
+        <!-- Time Input with Clock Icon -->
+        <div class="input-group">
+            <i class="fas fa-clock"></i> <!-- Clock Icon -->
+            <input type="time" id="departure-time" step="1800">
+        </div>
+    </div>
+</div>
+
+    <!-- Divider Before Price Section -->
+    <hr class="section-divider">
+
+    <!-- Price Section -->
+    <p class="booking-price"><strong>Price:</strong></p>
+    <p class="price-value">£4.00</p>
+</div>
+
+<!-- SEPARATE Total Due Container -->
+<div class="total-due-wrapper">
+    <div class="total-due-container">
+        <p class="total-due-label">
+            <svg class="lock-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E3A131" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="10" width="18" height="12" rx="2" ry="2"></rect>
+                <path d="M7 10V7a5 5 0 0 1 10 0v3"></path>
+            </svg>
+            <strong>Total Due Today:</strong>
+        </p>
+        <p class="total-due-amount">£5.13</p>
+    </div>
+</div>
+
+    
+
+
+
+
+
+
+<p class="extra-space">a</p>
+
+
+ 
+    <script>
+
+
+document.addEventListener("dblclick", function (event) {
+    event.preventDefault(); // Prevent default double-tap behavior
+}, { passive: false });
+
+document.addEventListener("touchstart", function (event) {
+    if (event.touches.length > 1) {
+        event.preventDefault(); // Prevent pinch-zoom
+    }
+}, { passive: false });
+
+
+
+
+
+
+
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("DOM fully loaded and parsed");
+
+    // Continue button functionality (no delay)
+    const continueButton = document.querySelector(".continue-btn");
+
+    if (continueButton) {
+        console.log("Continue button found!");
+
+        continueButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            console.log("Continue button clicked");
+
+            // Check if dates are valid
+            const arrivalDate = new Date(document.getElementById("arrival-date").value + "T" + document.getElementById("arrival-time").value);
+            const departureDate = new Date(document.getElementById("departure-date").value + "T" + document.getElementById("departure-time").value);
+
+            if (isNaN(arrivalDate) || isNaN(departureDate) || arrivalDate >= departureDate) {
+                console.log("Invalid dates. Continue button not working.");
+                return; // Stop the function if dates are invalid
+            }
+
+            // Darken the button
+            continueButton.classList.add("darkened");
+
+            // Redirect immediately (no delay)
+            console.log("Redirecting to thirdpage.html");
+            window.location.href = "thirdpage.html";
+        });
+    } else {
+        console.error("Continue button not found!");
+    }
+
+    // Function to handle button clicks with delay (for Back button)
+    function handleButtonClick(event, url) {
+        event.preventDefault(); // Prevent the default link behavior
+        setTimeout(function () {
+            window.location.href = url; // Redirect to the specified URL after delay
+        }, 500); // 500 milliseconds = 0.5 seconds
+    }
+
+    // Back button functionality with delay
+    document.querySelector(".back-btn").addEventListener("click", function (event) {
+        handleButtonClick(event, "buttons.html");
+    });
+
+    // Flatpickr initialization for arrival date
+    const arrivalDatePicker = flatpickr("#arrival-date", {
+        dateFormat: "Y-m-d",
+        defaultDate: "today",
+        minDate: "today", // Prevent past date selection
+        disableMobile: true, // Disable mobile native picker
+        onChange: function (selectedDates, dateStr) {
+            const departureDate = new Date(document.getElementById("departure-date").value);
+
+            // If arrival date is after departure date, set departure date to arrival date
+            if (selectedDates[0] > departureDate) {
+                departureDatePicker.setDate(selectedDates[0]);
+            }
+
+            // Update departure date picker's minDate to the selected arrival date
+            departureDatePicker.set("minDate", dateStr);
+
+            // Recalculate parking cost
+            calculateParkingCost();
+        },
+        onDayCreate: function (dObj, dStr, fp, dayElem) {
+            const date = new Date(dayElem.dateObj);
+            const today = new Date().setHours(0, 0, 0, 0);
+
+            // Gray out past dates
+            if (date < today) {
+                dayElem.classList.add("past-date");
+            }
+        },
+    });
+
+// Flatpickr initialization for departure date
+const departureDatePicker = flatpickr("#departure-date", {
+    dateFormat: "Y-m-d",
+    defaultDate: "today",
+    minDate: "today", // Prevent past date selection
+    disableMobile: true, // Disable mobile native picker
+    onChange: function () {
+        // Recalculate parking cost
+        calculateParkingCost();
+    },
+    onDayCreate: function (dObj, dStr, fp, dayElem) {
+        const date = new Date(dayElem.dateObj);
+        const today = new Date().setHours(0, 0, 0, 0);
+        const arrivalDate = new Date(document.getElementById("arrival-date").value);
+
+        // Gray out past dates and dates before arrival date (but not the arrival date itself)
+        if (date < today || (date < arrivalDate && date.toDateString() !== arrivalDate.toDateString())) {
+            dayElem.classList.add("past-date");
+        }
+    },
+});
+
+    // Time picker functionality
+    document.querySelectorAll("input[type='time']").forEach(input => {
+        input.addEventListener("click", function () {
+            this.showPicker();
+        });
+    });
+
+    // Set default date and time
+    function setDefaultDateTime() {
+        let now = new Date();
+
+        // Format date as YYYY-MM-DD
+        let formattedDate = now.toISOString().split("T")[0];
+
+        // Round time to nearest 30 minutes
+        let minutes = now.getMinutes();
+        if (minutes < 30) {
+            minutes = 30;
+        } else {
+            minutes = 0;
+            now.setHours(now.getHours() + 1);
+        }
+        let formattedTime = `${now.getHours().toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
+
+        // Set arrival date and time
+        document.getElementById("arrival-date").value = formattedDate;
+        document.getElementById("arrival-time").value = formattedTime;
+
+        // Set departure time (1 hour after arrival)
+        now.setHours(now.getHours() + 1);
+        let departureTime = `${now.getHours().toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
+        document.getElementById("departure-date").value = formattedDate;
+        document.getElementById("departure-time").value = departureTime;
+
+        // Calculate initial price
+        calculateParkingCost();
+    }
+
+    // Calculate parking cost
+    function calculateParkingCost() {
+        const priceElement = document.querySelector(".price-value");
+        const totalDueElement = document.querySelector(".total-due-amount");
+        const continueButton = document.querySelector(".continue-btn");
+
+        // Apply loading effect (fade out)
+        priceElement.classList.add("loading");
+        totalDueElement.classList.add("loading");
+
+        setTimeout(() => {
+            const arrivalDate = new Date(document.getElementById("arrival-date").value + "T" + document.getElementById("arrival-time").value);
+            const departureDate = new Date(document.getElementById("departure-date").value + "T" + document.getElementById("departure-time").value);
+
+            if (isNaN(arrivalDate) || isNaN(departureDate) || arrivalDate >= departureDate) {
+                // Display "Invalid Dates." in red
+                priceElement.innerHTML = "Invalid Dates.";
+                priceElement.classList.add("invalid-dates"); // Add red text class
+                totalDueElement.innerHTML = "£0.00";
+
+                // Disable the Continue button
+                continueButton.disabled = true;
+            } else {
+                // Remove red text class if dates are valid
+                priceElement.classList.remove("invalid-dates");
+
+                // Enable the Continue button
+                continueButton.disabled = false;
+
+                // Calculate total hours and days
+                const totalHours = (departureDate - arrivalDate) / (1000 * 60 * 60);
+                const totalDays = Math.ceil(totalHours / 24); // Round up to full days
+
+                let totalDue;
+                if (totalHours <= 1) {
+                    totalDue = 2.25; // 1 hour = £2.25 (includes tax)
+                } else if (totalHours > 1 && totalHours <= 4) {
+                    totalDue = 3.25; // Over 2 hours but ≤ 4 hours = £3.25 (includes tax)
+                } else if (totalHours > 4 && totalHours < 24) {
+                    totalDue = 4.20; // More than 4 hours but less than a full day = £4.20 (includes tax)
+                } else {
+                    totalDue = totalDays * 4.20; // £4.20 per full day
+                }
+
+                // Update the price on the page after fade-in transition
+                priceElement.innerHTML = `£${(totalDue - 0.20).toFixed(2)}`; // Show base price before tax
+                totalDueElement.innerHTML = `£${totalDue.toFixed(2)}`; // Show price including tax
+            }
+
+            // Remove loading effect (fade in)
+            priceElement.classList.remove("loading");
+            totalDueElement.classList.remove("loading");
+        }, 500); // Smooth transition delay
+    }
+
+    // Attach event listeners to update price when dates/times change
+    document.getElementById("arrival-date").addEventListener("change", calculateParkingCost);
+    document.getElementById("arrival-time").addEventListener("change", calculateParkingCost);
+    document.getElementById("departure-date").addEventListener("change", calculateParkingCost);
+    document.getElementById("departure-time").addEventListener("change", calculateParkingCost);
+
+    // Set defaults on page load
+    setDefaultDateTime();
+});
+
+    </script>
+
+</body>
+</html>
